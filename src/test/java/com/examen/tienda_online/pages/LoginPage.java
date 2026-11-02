@@ -59,4 +59,43 @@ public class LoginPage extends BasePage {
                 )
         );
     }
+
+    public void intentarLoginInvalido() {
+
+        abrirFormularioLogin();
+
+        escribir(campoCorreo, "qa.invalido@example.com");
+        escribir(campoClave, "ClaveIncorrecta123!");
+
+        hacerClic(botonLogin);
+    }
+
+    public boolean validarMensajeError() {
+
+        By mensajeError = By.cssSelector(
+                ".alert.alert-danger, .alert-danger"
+        );
+
+        WebElement error = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(mensajeError)
+        );
+
+        String texto = error.getText().trim();
+
+        System.out.println("Mensaje de autenticación: " + texto);
+
+        return !texto.isEmpty();
+    }
+
+    public boolean permaneceEnLogin() {
+
+        wait.until(
+                ExpectedConditions.urlContains("/iniciar-sesion")
+        );
+
+        return driver.getCurrentUrl().contains("/iniciar-sesion")
+                && elementoVisible(campoCorreo)
+                && elementoVisible(campoClave);
+    }
+
 }

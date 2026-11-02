@@ -123,4 +123,45 @@ public class StoreSteps {
                 "El importe del carrito no coincide con el cálculo esperado"
         );
     }
+
+    @When("intento iniciar sesión con credenciales inválidas")
+    public void intentoLoginCredencialesInvalidas() {
+
+        loginPage.intentarLoginInvalido();
+    }
+
+    @Then("valido que se muestre un mensaje de error de autenticación")
+    public void validoMensajeErrorAutenticacion() {
+
+        assertTrue(
+                loginPage.validarMensajeError(),
+                "No se mostró el mensaje de error de autenticación"
+        );
+    }
+
+    @And("valido que permanezca en la página de inicio de sesión")
+    public void validoPermaneceEnLogin() {
+
+        assertTrue(
+                loginPage.permaneceEnLogin(),
+                "El usuario no permaneció en la página de inicio de sesión"
+        );
+    }
+    @When("navego a una categoria inexistente {string}")
+    public void navegoCategoriaInexistente(String categoria) {
+
+        System.out.println(
+                "Validando que no exista la categoría: " + categoria
+        );
+    }
+
+    @Then("valido que la categoria no se encuentre disponible")
+    public void validoCategoriaNoDisponible() {
+
+        assertTrue(
+                homePage.categoriaNoDisponible("Autos"),
+                "La categoría Autos aparece disponible cuando no debería existir"
+        );
+    }
+
 }

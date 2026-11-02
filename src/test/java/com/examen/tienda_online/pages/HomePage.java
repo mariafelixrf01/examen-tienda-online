@@ -82,4 +82,23 @@ public class HomePage extends BasePage {
                 "========== FIN DEL DIAGNÓSTICO =========="
         );
     }
+    public boolean categoriaNoDisponible(String categoria) {
+
+        By categoriaLocator = By.xpath(
+                "//a[contains(translate(normalize-space(.), " +
+                        "'ABCDEFGHIJKLMNOPQRSTUVWXYZ', " +
+                        "'abcdefghijklmnopqrstuvwxyz'), '" +
+                        categoria.toLowerCase() + "')]"
+        );
+
+        boolean existe = driver.findElements(categoriaLocator)
+                .stream()
+                .anyMatch(WebElement::isDisplayed);
+
+        System.out.println(
+                "¿La categoría " + categoria + " está disponible?: " + existe
+        );
+
+        return !existe;
+    }
 }

@@ -11,3 +11,15 @@ Feature: Product - Store
     When finalizo la compra
     Then valido el titulo de la pagina del carrito
     And vuelvo a validar el calculo de precios en el carrito
+
+
+  Scenario: Validación de inicio de sesión con credenciales inválidas
+    Given estoy en la página de la tienda
+    When intento iniciar sesión con credenciales inválidas
+    Then valido que se muestre un mensaje de error de autenticación
+    And valido que permanezca en la página de inicio de sesión
+
+  Scenario: Validación de una categoría inexistente
+    Given estoy en la página de la tienda
+    When navego a una categoria inexistente "Autos"
+    Then valido que la categoria no se encuentre disponible
