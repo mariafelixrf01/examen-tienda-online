@@ -6,9 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.List;
-
-public class LoginPage extends BasePage {
+public class LoginPage extends CartPage {
 
     private final By campoCorreo = By.id("field-email");
     private final By campoClave = By.id("field-password");

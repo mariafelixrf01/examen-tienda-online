@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ProductPage extends BasePage {
+public class ProductPage extends CartPage {
 
     private final By productos =
             By.cssSelector("article.product-miniature");

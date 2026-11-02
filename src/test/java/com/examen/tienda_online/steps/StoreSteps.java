@@ -5,7 +5,6 @@ import com.examen.tienda_online.pages.CartPage;
 import com.examen.tienda_online.pages.HomePage;
 import com.examen.tienda_online.pages.LoginPage;
 import com.examen.tienda_online.pages.ProductPage;
-import com.examen.tienda_online.utils.Configuracion;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -28,6 +27,7 @@ public class StoreSteps {
     private final CartPage cartPage;
 
     private BigDecimal totalEsperado;
+    private String categoriaBuscada;
 
     public StoreSteps() {
 
@@ -76,7 +76,6 @@ public class StoreSteps {
     public void agregoUnidadesDelPrimerProducto(int cantidad) {
 
         productPage.seleccionarPrimerProducto();
-
         productPage.agregarCantidad(cantidad);
 
         totalEsperado = productPage.getTotalEsperado();
@@ -147,11 +146,14 @@ public class StoreSteps {
                 "El usuario no permaneció en la página de inicio de sesión"
         );
     }
+
     @When("navego a una categoria inexistente {string}")
     public void navegoCategoriaInexistente(String categoria) {
 
+        categoriaBuscada = categoria;
+
         System.out.println(
-                "Validando que no exista la categoría: " + categoria
+                "Validando que no exista la categoría: " + categoriaBuscada
         );
     }
 
@@ -159,9 +161,9 @@ public class StoreSteps {
     public void validoCategoriaNoDisponible() {
 
         assertTrue(
-                homePage.categoriaNoDisponible("Autos"),
-                "La categoría Autos aparece disponible cuando no debería existir"
+                homePage.categoriaNoDisponible(categoriaBuscada),
+                "La categoría " + categoriaBuscada
+                        + " aparece disponible cuando no debería existir"
         );
     }
-
 }

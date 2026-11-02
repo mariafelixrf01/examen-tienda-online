@@ -1,26 +1,24 @@
-
 package com.examen.tienda_online.pages;
 
 import com.examen.tienda_online.utils.PrecioUtils;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.math.BigDecimal;
 
 public class CartPage extends BasePage {
 
-    private final By botonContinuarCompra =
+    private static final By BOTON_CONTINUAR_COMPRA =
             By.cssSelector("#blockcart-modal a.btn-primary");
 
-    private final By enlaceCarrito =
+    private static final By ENLACE_CARRITO =
             By.cssSelector("a[href*='controller=cart']");
 
-    private final By tituloCarrito =
-            By.cssSelector("h1");
+    private static final By TITULO_CARRITO =
+            By.tagName("h1");
 
-    private final By importeSubtotal =
+    private static final By IMPORTE_SUBTOTAL =
             By.cssSelector("#cart-subtotal-products .value");
 
     public CartPage(WebDriver driver) {
@@ -29,22 +27,19 @@ public class CartPage extends BasePage {
 
     public void finalizarCompra() {
 
-        if (elementoVisible(botonContinuarCompra)) {
-            hacerClic(botonContinuarCompra);
+        if (elementoVisible(BOTON_CONTINUAR_COMPRA)) {
+            hacerClic(BOTON_CONTINUAR_COMPRA);
         } else {
-            hacerClic(enlaceCarrito);
+            hacerClic(ENLACE_CARRITO);
         }
 
-        esperarElemento(tituloCarrito);
+        esperarElemento(TITULO_CARRITO);
     }
 
     public boolean validarTituloCarrito() {
 
-        String titulo = obtenerTexto(tituloCarrito)
-                .toLowerCase()
-                .trim();
-
-        System.out.println("Título del carrito: " + titulo);
+        String titulo = obtenerTexto(TITULO_CARRITO)
+                .toLowerCase();
 
         return titulo.contains("carrito")
                 || titulo.contains("cart");
@@ -52,19 +47,11 @@ public class CartPage extends BasePage {
 
     public boolean validarCalculoPrecios(BigDecimal totalEsperado) {
 
-        WebElement elemento = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        importeSubtotal
-                )
-        );
+        String importe = obtenerTexto(IMPORTE_SUBTOTAL);
 
-        String importe = elemento.getText();
+        BigDecimal totalCarrito =
+                PrecioUtils.convertir(importe);
 
-        BigDecimal totalCarrito = PrecioUtils.convertir(importe);
-
-        System.out.println("Total esperado: " + totalEsperado);
-        System.out.println("Subtotal del carrito: " + totalCarrito);
-
-        return totalEsperado.compareTo(totalCarrito) == 0;
+        return totalCarrito.compareTo(totalEsperado) == 0;
     }
 }
